@@ -7,11 +7,10 @@ class Program
 	 static Pot pot = new();
 	 static FoodAnalyst foodAnalyst = new(pot);
 	 static PointCounter pointCounter = new(foodAnalyst);
+	 private static IngredientType ingredientType;
 	
 	 static void Main()
 	{
-		IngredientType ingredientType = IngredientType.none;
-	
 		Console.WriteLine("Что хотите добавить?" +
 		                  "\n1 - картофель\n2 - морковь\n3 - перец\n4 - лук\n5 - мясо"); 
 		string answer = Console.ReadLine();
