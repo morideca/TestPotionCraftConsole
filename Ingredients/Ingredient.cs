@@ -3,11 +3,11 @@ namespace ConsoleApp1;
 public class Ingredient 
 {
     public string Name { get; protected set; }
-    public int Value { get; protected set; }
+    public int PointCost { get; protected set; }
 
-    public Ingredient(string name, int value)
+    public Ingredient(string name, int pointCost)
     {
         Name = name;
-        Value = value;
+        PointCost = pointCost;
     }
 }

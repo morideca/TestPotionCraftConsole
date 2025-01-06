@@ -2,26 +2,26 @@ namespace ConsoleApp1;
 
 public class PointCounter
 {
-    private int points;
-    private FoodAnalyst foodAnalyst;
-    
-    public PointCounter(FoodAnalyst foodAnalyst)
+    private Model model;
+    private View view;
+
+    public PointCounter(Model model, View view)
     {
-        this.foodAnalyst = foodAnalyst;
-        foodAnalyst.OnFoodAnalyzed += CountPoints;
+        this.model = model;
+        this.view = view;
     }
 
-    private void CountPoints(List<Ingredient> ingredients, int ingredientCount)
+    public void CountPoints(List<Ingredient> ingredients, int MatchedIngredientsCount)
     {
         int newPoints = 0;
         float multiplier = 0;
         
         foreach (var ingredient in ingredients)
         {
-            newPoints += ingredient.Value;
+            newPoints += ingredient.PointCost;
         }
 
-        multiplier = ingredientCount switch
+        multiplier = MatchedIngredientsCount switch
         {
             1 => 2,
             2 => 2,
@@ -32,18 +32,7 @@ public class PointCounter
         };
         
         newPoints = (int)Math.Round(newPoints * multiplier);
-        Console.WriteLine($"Круто получилось! Ты заработал {newPoints} очков!");
-        AddPoints(newPoints);
-    }
-
-    public void AddPoints(int points)   
-    {
-        this.points += points;
-        Console.WriteLine($"Текущие очки: {this.points}");
-    }
-
-    public void PrintPoints()
-    {
-        Console.WriteLine(points);
+        model.ClearDish();
+        model.AddPoints(newPoints);
     }
 }

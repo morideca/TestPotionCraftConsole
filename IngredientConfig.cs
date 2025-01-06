@@ -2,7 +2,7 @@ namespace ConsoleApp1;
 
 public class IngredientConfig
 {
-    public (string, int) GetName(IngredientType ingredientType)
+    public (string, int) GetConfig(IngredientType ingredientType)
     {
         switch(ingredientType)
         {

@@ -11,32 +11,24 @@ public enum DishType
     meat
 }
 
-public class FoodAnalyst : IDisposable
+public class DishAnalyst
 {
-    public event Action<List<Ingredient>, int> OnFoodAnalyzed;
-    
-    private Pot pot;
     private DishType dishName;
-    
-    public FoodAnalyst(Pot pot)
+    private View view;
+    private Model model;
+    private PointCounter pointCounter;
+
+    public DishAnalyst(View view, Model model, PointCounter pointCounter)
     {
-        this.pot = pot;
-        pot.OnDishPrepared += AnalyzeDish;
-    }
-    
-    public void Dispose()
-    {
-        pot.OnDishPrepared -= AnalyzeDish;
+        this.view = view;
+        this.model = model;
+        this.pointCounter = pointCounter;
     }
 
-    private void AnalyzeDish(List<Ingredient> ingredients)
+    public void AnalyzeDish(List<Ingredient> ingredients)
     {
-        List<string> ingredientNames = new List<string>();
-        foreach (var ingredient in ingredients)
-        {
-            ingredientNames.Add(ingredient.Name);
-        }
-
+        List<string> ingredientNames = model.IngredientNames;
+        
         int meatCount = ingredientNames.Count(item => item == "мясо");
 
         dishName = meatCount switch
@@ -68,8 +60,7 @@ public class FoodAnalyst : IDisposable
                 };
             }
         }
-        
-        Console.WriteLine($"Получилось! Мы приготовили {dishName}!");
-        OnFoodAnalyzed?.Invoke(ingredients, ingredientCount);
+        view.OnDishPrepared(dishName.ToString());
+        pointCounter.CountPoints(ingredients, ingredientCount);
     }
 }
