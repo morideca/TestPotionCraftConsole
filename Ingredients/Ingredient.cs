@@ -1,13 +1,15 @@
 namespace ConsoleApp1;
 
-public class Ingredient 
+public class Ingredient
 {
-    public string Name { get; protected set; }
-    public int PointCost { get; protected set; }
-
-    public Ingredient(string name, int pointCost)
+    public Ingredient(int id, int pointCost, string name)
     {
-        Name = name;
+        Id = id;
         PointCost = pointCost;
+        Name = name;
     }
+    
+    public int Id { get; set; }
+    public int PointCost{ get; set; }
+    public string Name{ get; set; }
 }
