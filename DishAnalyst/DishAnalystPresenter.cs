@@ -23,17 +23,17 @@ public class DishAnalystPresenter
     {
         var dishes = model.DishesData.Dishes;
 
-        foreach (var dish in dishes)
-        {
-            foreach (var recipe in dish.Recipes)
-            {
-                bool areEqual = recipe.All(kvp => 
-                    ingredients.TryGetValue(kvp.Key, out var value) && value.SequenceEqual(kvp.Value));
+        var _dishes = dishes.SelectMany(dish => dish.Recipes,
+            (dish, recipe) => new { Name = dish.Name, Recipe = recipe });
 
-                if (areEqual)
-                {
-                    return dish.Name;
-                }
+        foreach (var dish in _dishes)
+        {
+            bool areEqual = dish.Recipe.All(kvp => 
+                ingredients.TryGetValue(kvp.Key, out var value) && value.SequenceEqual(kvp.Value));
+
+            if (areEqual)
+            {
+                return dish.Name;
             }
         }
         return "суп";
