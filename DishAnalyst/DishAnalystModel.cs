@@ -7,6 +7,7 @@ public class DishAnalystModel
 {
 	private DishAnalystView dishAnalystView;
 
+	public string LastDishName;
 	public DishesData DishesData { get; set; } = new();
 	public List<Ingredient> Ingredients { get; private set; } = new();
 	
@@ -17,7 +18,7 @@ public class DishAnalystModel
 
 	public void SetIngredients(List<Ingredient> ingredients)
 	{
-		Ingredients.Clear();
+		Ingredients = new();
 		foreach (Ingredient ingredient in ingredients)
 		{
 			Ingredients.Add(ingredient);

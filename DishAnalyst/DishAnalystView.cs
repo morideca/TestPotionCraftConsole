@@ -6,4 +6,9 @@ public class DishAnalystView
 	{
 		Console.WriteLine($"Получилось! Мы приготовили {name}!");
 	}
+
+	public void Show(string name)
+	{
+		Console.WriteLine($"Последнее блюдо: {name}");
+	}
 }

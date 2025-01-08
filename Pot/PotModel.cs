@@ -8,17 +8,21 @@ public class PotModel
 	private PotView view;
 	private List<Ingredient> ingredients = new();
 	private List<string> ingredientNames = new();
+	
+	public IngredientConfig config { get; private set; }
 
-	public PotModel(PotView view)
+
+	public PotModel(PotView view, IngredientConfig config)
 	{
 		this.view = view;
+		this.config = config;
 	}
 	
 	public void AddIngredient(Ingredient ingredient)
 	{
 		ingredients.Add(ingredient);
 		ingredientNames.Add(ingredient.Name);
-		view.OnIngredientAdded(ingredient.Name, ingredientNames);
+		view.OnIngredientAdded(ingredient.Name);
 	}
 	
 	public void ClearIngredients()

@@ -2,7 +2,7 @@ namespace ConsoleApp1;
 
 public class PointCounterModel
 {
-	private int points;
+	public int Points { get; private set; }
 	private PointCounterView pointCounterView;
 
 	public List<Ingredient> Ingredients { get; private set; }
@@ -15,13 +15,14 @@ public class PointCounterModel
 
 	public void SetAnalysisResult(List<Ingredient> ingredients, int MatchedIngredientsCount)
 	{
-		this.Ingredients = ingredients;
+		Ingredients = new();
+		Ingredients = ingredients;
 		this.MachedIngredientsCount = MatchedIngredientsCount;
 	}
 	
 	public void AddPoints(int points)
 	{
-		this.points += points;
-		pointCounterView.OnAddedPoints(points, this.points);
+		this.Points += points;
+		pointCounterView.OnAddedPoints(points);
 	}
 }

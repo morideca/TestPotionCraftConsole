@@ -88,8 +88,15 @@ public class DishAnalystPresenter
             dishName = GetDishName(recipe);
 
         }
-        view.OnDishPrepared(dishName.ToString());
+
+        model.LastDishName = dishName;
+        view.OnDishPrepared(dishName);
         pointCounterPresenter.SetAnalysisResult(model.Ingredients, matchedIngredientCount);
         pointCounterPresenter.CountPoints();
+    }
+
+    public void ShowInfo()
+    {
+        view.Show(model.LastDishName);
     }
 }

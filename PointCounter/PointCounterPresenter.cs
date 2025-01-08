@@ -5,16 +5,14 @@ public class PointCounterPresenter
     private PointCounterView view;
     private PointCounterModel model;
     
-    private ChiefPresenter chiefPresenter;
     private PotPresenter potPresenter;
 
 
-    public void Init(ChiefPresenter chiefPresenter, PotPresenter potPresenter)
+    public void Init(PotPresenter PotPresenter)
     {
         view = new();
         model = new(view);
-        this.chiefPresenter = chiefPresenter;
-        this.potPresenter  = potPresenter;
+        this.potPresenter = PotPresenter;
     }
 
     public void SetAnalysisResult(List<Ingredient> ingredients, int MatchedIngredientsCount)
@@ -47,7 +45,10 @@ public class PointCounterPresenter
         
         newPoints = (int)Math.Round(newPoints * multiplier);
         model.AddPoints(newPoints);
-        potPresenter.OnDishPrepared();
-        chiefPresenter.AskForIngredient();
+    }
+
+    public void ShowInfo()
+    {
+        view.ShowInfo(model.Points);
     }
 }
