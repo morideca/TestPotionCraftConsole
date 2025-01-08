@@ -10,23 +10,19 @@ public class PotPresenter
     private PotView view;
     private FactoryPresenter factoryPresenter;
 
-    public void Init(FactoryPresenter factoryPresenter, DishAnalystPresenter dishAnalystPresenter, IngredientConfig config)
+    public void Init(PotView view, PotModel model, FactoryPresenter factoryPresenter, DishAnalystPresenter dishAnalystPresenter)
     {
         this.factoryPresenter = factoryPresenter;
         this.factoryPresenter = factoryPresenter;
         this.dishAnalystPresenter = dishAnalystPresenter;
-        view = new(this);
-        model = new(view, config);
+        this.view = view;
+        this.model = model;
+        model.OnIngredientAdded += OnIngredientAdded;
     }
 
     public void Start()
     {
         AskForIngredient();
-    }
-
-    private void AskForIngredient()
-    {
-        view.AskForIngredient(model.config.ingredientsConfig);
     }
     
     public void OnChoiceIngredient(string answer)
@@ -43,14 +39,15 @@ public class PotPresenter
         }
     }
     
-    public void OnDishPrepared()
+    private void OnIngredientAdded(Ingredient ingredient, List<Ingredient> ingredients)
     {
-        model.ClearIngredients();
+        var ingredientNames = ingredients.Select(x => x.Name).ToList();
+        view.OnIngredientAdded(ingredient.Name, ingredientNames);
     }
-
-    public void ShowInfo()
+    
+    private void AskForIngredient()
     {
-        view.Show(model.IngredientNames);
+        view.AskForIngredient(model.Config.ingredientsConfig);
     }
     
     private void AddIngredient(Ingredient ingredient)

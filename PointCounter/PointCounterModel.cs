@@ -2,7 +2,10 @@ namespace ConsoleApp1;
 
 public class PointCounterModel
 {
+	public event Action<int, int> OnPointChanged;
+	
 	public int Points { get; private set; }
+	
 	private PointCounterView pointCounterView;
 
 	public List<Ingredient> Ingredients { get; private set; }
@@ -23,6 +26,6 @@ public class PointCounterModel
 	public void AddPoints(int points)
 	{
 		this.Points += points;
-		pointCounterView.OnAddedPoints(points);
+		OnPointChanged?.Invoke(points, this.Points);
 	}
 }

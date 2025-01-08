@@ -1,26 +1,39 @@
-﻿using Newtonsoft.Json;
+﻿using ConsoleApp1.Dishes;
+using Newtonsoft.Json;
 
 namespace ConsoleApp1;
 
 class Program
 {
-	private static IngredientConfig config;
 	private static FactoryPresenter factoryPresenter;
 	private static PotPresenter potPresenter;
 	private static DishAnalystPresenter dishAnalystPresenter;
 	private static PointCounterPresenter pointCounterPresenter;
 	static void Main()
 	{
-		 config = new IngredientConfig();
-		 factoryPresenter = new();
-		 potPresenter = new();
-		 dishAnalystPresenter = new();
-		 pointCounterPresenter = new();
+		IngredientConfig config = new IngredientConfig();
+		DishesData dishesData = new DishesData();
+		
+		factoryPresenter = new();
+		potPresenter = new();
+		dishAnalystPresenter = new();
+		pointCounterPresenter = new();
+		
+		FactoryView factoryView = new();
+		PotView potView = new(potPresenter);
+		DishAnalystView dishAnalystView = new();
+		PointCounterView pointCounterView = new();
 
-		factoryPresenter.Init(config);
-		potPresenter.Init(factoryPresenter, dishAnalystPresenter, config);
-		dishAnalystPresenter.Init(pointCounterPresenter);
-		pointCounterPresenter.Init(potPresenter);
+		FactoryModel factoryModel = new(config);
+		PotModel potModel = new(config);
+		DishAnalystModel dishAnalystModel = new(dishesData);
+		PointCounterModel pointCounterModel = new(pointCounterView);
+		
+		factoryPresenter.Init(factoryModel, factoryView);
+		potPresenter.Init(potView, potModel, factoryPresenter, dishAnalystPresenter);
+		dishAnalystPresenter.Init(dishAnalystModel, dishAnalystView, pointCounterPresenter);
+		pointCounterPresenter.Init(pointCounterModel, pointCounterView, potPresenter);
+		
 
 		potPresenter.onWrongIngredientAdded += Start;
 		potPresenter.OnLeftFreeSpace += Start;
@@ -31,9 +44,7 @@ class Program
 	
 	private static void Start()
 	{		
-		potPresenter.ShowInfo();
 		dishAnalystPresenter.ShowInfo();
-		pointCounterPresenter.ShowInfo();
 		potPresenter.Start();
 	}
 }

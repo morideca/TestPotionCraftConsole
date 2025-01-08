@@ -5,15 +5,13 @@ namespace ConsoleApp1;
 
 public class DishAnalystModel
 {
-	private DishAnalystView dishAnalystView;
-
-	public string LastDishName;
-	public DishesData DishesData { get; set; } = new();
+	public string DishName;
+	public DishesData DishesData { get; set; }
 	public List<Ingredient> Ingredients { get; private set; } = new();
 	
-	public DishAnalystModel(DishAnalystView dishAnalystView)
+	public DishAnalystModel(DishesData dishesData)
 	{
-		this.dishAnalystView = dishAnalystView;
+		DishesData = dishesData;
 	}
 
 	public void SetIngredients(List<Ingredient> ingredients)

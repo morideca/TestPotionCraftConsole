@@ -14,10 +14,10 @@ public class FactoryPresenter
     private FactoryModel model;
     private FactoryView view;
 
-    public void Init(IngredientConfig ingredientsConfig)
+    public void Init(FactoryModel model, FactoryView view)
     {
-        view = new();
-        model = new(ingredientsConfig);
+        this.view = view;
+        this.model = model;
     }
     
     public Ingredient GetIngredient(int id)

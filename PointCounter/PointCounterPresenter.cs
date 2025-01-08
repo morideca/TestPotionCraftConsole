@@ -6,15 +6,15 @@ public class PointCounterPresenter
     
     private PointCounterView view;
     private PointCounterModel model;
-    
     private PotPresenter potPresenter;
 
 
-    public void Init(PotPresenter PotPresenter)
+    public void Init(PointCounterModel model, PointCounterView view, PotPresenter PotPresenter)
     {
-        view = new();
-        model = new(view);
+        this.model = model;
+        this.view = view;
         this.potPresenter = PotPresenter;
+        model.OnPointChanged += OnPointChanged;
     }
 
     public void SetAnalysisResult(List<Ingredient> ingredients, int MatchedIngredientsCount)
@@ -50,8 +50,8 @@ public class PointCounterPresenter
         OnPointsCounted?.Invoke();
     }
 
-    public void ShowInfo()
+    public void OnPointChanged(int points, int allPoints)
     {
-        view.ShowInfo(model.Points);
+        view.OnAddedPoints(points, allPoints);
     }
 }

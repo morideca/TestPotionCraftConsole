@@ -22,27 +22,23 @@ public class PotView
 		potPresenter.OnChoiceIngredient(answer);
 	}
 	
-	public void OnWrongIngredient()
+	public void OnIngredientAdded(string ingredient, List<string> ingredients)
 	{
-		Console.WriteLine("К сожалению, такого ингредиента нет :( Давайте попробуем снова!");
-	}
-	
-	public void OnIngredientAdded(string name)
-	{
-		Console.WriteLine($"Вы положили {name} в кастрюлю.");
-	}
-
-	public void Show(List<string> ingredients)
-	{
+		Console.WriteLine($"Вы положили {ingredient} в кастрюлю.");
 		Console.WriteLine($"Текущие ингредиенты в кастрюле:");
-		foreach (var ingredient in ingredients)
+		foreach (var _ingredient in ingredients)
 		{
-			Console.WriteLine($" {ingredient},");
+			Console.WriteLine($" {_ingredient},");
 		}
 	}
 	
 	public void OnGotEnoughIngredients()
 	{
 		Console.WriteLine("Что ж, этого хватит. Готовлю блюдо...");
+	}
+	
+	public void OnWrongIngredient()
+	{
+		Console.WriteLine("К сожалению, такого ингредиента нет :( Давайте попробуем снова!");
 	}
 }

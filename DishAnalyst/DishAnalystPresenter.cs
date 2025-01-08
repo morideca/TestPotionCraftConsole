@@ -7,11 +7,11 @@ public class DishAnalystPresenter
     
     private PointCounterPresenter pointCounterPresenter;
 
-    public void Init(PointCounterPresenter pointCounterPresenter)
+    public void Init(DishAnalystModel model, DishAnalystView view, PointCounterPresenter pointCounterPresenter)
     {
         this.pointCounterPresenter = pointCounterPresenter;
-        view = new();
-        model = new(view);
+        this.view = view;
+        this.model = model;
     }
 
     public void SetIngredients(List<Ingredient> ingredients)
@@ -89,14 +89,14 @@ public class DishAnalystPresenter
 
         }
 
-        model.LastDishName = dishName;
-        view.OnDishPrepared(dishName);
+        model.DishName = dishName;
+        view.OnDishPrepared(model.DishName);
         pointCounterPresenter.SetAnalysisResult(model.Ingredients, matchedIngredientCount);
         pointCounterPresenter.CountPoints();
     }
 
     public void ShowInfo()
     {
-        view.Show(model.LastDishName);
+        view.Show(model.DishName);
     }
 }

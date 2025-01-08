@@ -2,32 +2,23 @@ namespace ConsoleApp1;
 
 public class PotModel
 {
-	public List<Ingredient> Ingredients => ingredients;
-	public List<string> IngredientNames => ingredientNames;
-	
-	private PotView view;
-	private List<Ingredient> ingredients = new();
-	private List<string> ingredientNames = new();
-	
-	public IngredientConfig config { get; private set; }
+	public event Action<Ingredient, List<Ingredient>> OnIngredientAdded;
+	public IngredientConfig Config { get; private set; }
+	public List<Ingredient> Ingredients { get; private set; }= new();
 
-
-	public PotModel(PotView view, IngredientConfig config)
+	public PotModel(IngredientConfig config)
 	{
-		this.view = view;
-		this.config = config;
+		this.Config = config;
 	}
 	
 	public void AddIngredient(Ingredient ingredient)
 	{
-		ingredients.Add(ingredient);
-		ingredientNames.Add(ingredient.Name);
-		view.OnIngredientAdded(ingredient.Name);
+		Ingredients.Add(ingredient);
+		OnIngredientAdded?.Invoke(ingredient, Ingredients);
 	}
-	
+
 	public void ClearIngredients()
 	{
-		ingredients.Clear();
-		ingredientNames.Clear();
+		Ingredients.Clear();
 	}
 }
