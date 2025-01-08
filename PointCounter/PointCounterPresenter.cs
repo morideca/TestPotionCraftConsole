@@ -2,6 +2,8 @@ namespace ConsoleApp1;
 
 public class PointCounterPresenter
 {
+    public event Action OnPointsCounted;
+    
     private PointCounterView view;
     private PointCounterModel model;
     
@@ -45,6 +47,7 @@ public class PointCounterPresenter
         
         newPoints = (int)Math.Round(newPoints * multiplier);
         model.AddPoints(newPoints);
+        OnPointsCounted?.Invoke();
     }
 
     public void ShowInfo()

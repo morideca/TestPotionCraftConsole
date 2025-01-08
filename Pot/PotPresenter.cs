@@ -2,6 +2,9 @@ namespace ConsoleApp1;
 
 public class PotPresenter
 {
+    public event Action onWrongIngredientAdded;
+    public event Action OnLeftFreeSpace;
+    
     private DishAnalystPresenter dishAnalystPresenter;
     private PotModel model;
     private PotView view;
@@ -36,6 +39,7 @@ public class PotPresenter
         else
         {
             view.OnWrongIngredient();
+            onWrongIngredientAdded?.Invoke();
         }
     }
     
@@ -56,7 +60,7 @@ public class PotPresenter
         
         if (ingredients.Count < 5)
         {
-            return;
+            OnLeftFreeSpace?.Invoke();
         }
         else
         {
