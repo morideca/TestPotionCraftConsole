@@ -25,12 +25,12 @@ class Program
 		PointCounterView pointCounterView = new();
 
 		FactoryModel factoryModel = new(config);
-		PotModel potModel = new(config);
+		PotModel potModel = new();
 		DishAnalystModel dishAnalystModel = new(dishesData);
 		PointCounterModel pointCounterModel = new(pointCounterView);
 		
 		factoryPresenter.Init(factoryModel, factoryView);
-		potPresenter.Init(potView, potModel, factoryPresenter, dishAnalystPresenter);
+		potPresenter.Init(potView, potModel, config, factoryPresenter, dishAnalystPresenter);
 		dishAnalystPresenter.Init(dishAnalystModel, dishAnalystView, pointCounterPresenter);
 		pointCounterPresenter.Init(pointCounterModel, pointCounterView, potPresenter);
 		

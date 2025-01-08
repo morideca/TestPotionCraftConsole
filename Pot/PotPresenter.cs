@@ -4,19 +4,21 @@ public class PotPresenter
 {
     public event Action onWrongIngredientAdded;
     public event Action OnLeftFreeSpace;
-    
+
+    private IngredientConfig config;
     private DishAnalystPresenter dishAnalystPresenter;
     private PotModel model;
     private PotView view;
     private FactoryPresenter factoryPresenter;
 
-    public void Init(PotView view, PotModel model, FactoryPresenter factoryPresenter, DishAnalystPresenter dishAnalystPresenter)
+    public void Init(PotView view, PotModel model, IngredientConfig config, FactoryPresenter factoryPresenter, DishAnalystPresenter dishAnalystPresenter)
     {
         this.factoryPresenter = factoryPresenter;
         this.factoryPresenter = factoryPresenter;
         this.dishAnalystPresenter = dishAnalystPresenter;
         this.view = view;
         this.model = model;
+        this.config = config;
         model.OnIngredientAdded += OnIngredientAdded;
     }
 
@@ -47,7 +49,7 @@ public class PotPresenter
     
     private void AskForIngredient()
     {
-        view.AskForIngredient(model.Config.ingredientsConfig);
+        view.AskForIngredient(config.ingredientsConfig);
     }
     
     private void AddIngredient(Ingredient ingredient)
