@@ -5,14 +5,10 @@ namespace ConsoleApp1;
 
 public class DishAnalystModel
 {
-	public string DishName;
-	public DishesData DishesData { get; set; }
-	public List<Ingredient> Ingredients { get; private set; } = new();
+	public event Action<string> OnLastDishChanged;
 	
-	public DishAnalystModel(DishesData dishesData)
-	{
-		DishesData = dishesData;
-	}
+	public string DishName { get; private set; }
+	public List<Ingredient> Ingredients { get; private set; } = new();
 
 	public void SetIngredients(List<Ingredient> ingredients)
 	{
@@ -21,5 +17,11 @@ public class DishAnalystModel
 		{
 			Ingredients.Add(ingredient);
 		}
+	}
+
+	public void SetDishName(string name)
+	{
+		DishName = name;
+		OnLastDishChanged?.Invoke(name);
 	}
 }

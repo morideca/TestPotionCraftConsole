@@ -1,17 +1,23 @@
+using ConsoleApp1.Dishes;
+
 namespace ConsoleApp1;
 
 public class DishAnalystPresenter
 {
-    DishAnalystModel model;
-    DishAnalystView view;
+    private DishAnalystModel model;
+    private DishAnalystView view;
+    private DishesData dishesData;
     
     private PointCounterPresenter pointCounterPresenter;
 
-    public void Init(DishAnalystModel model, DishAnalystView view, PointCounterPresenter pointCounterPresenter)
+    public void Init(DishAnalystModel model, DishAnalystView view, PointCounterPresenter pointCounterPresenter, DishesData dishesData)
     {
         this.pointCounterPresenter = pointCounterPresenter;
         this.view = view;
         this.model = model;
+        this.dishesData = dishesData;
+        
+        model.OnLastDishChanged += OnLastDishChanged;
     }
 
     public void SetIngredients(List<Ingredient> ingredients)
@@ -21,7 +27,7 @@ public class DishAnalystPresenter
 
     private string GetDishName(Dictionary<string, int[]> ingredients)
     {
-        var dishes = model.DishesData.Dishes;
+        var dishes = dishesData.Dishes;
 
         var _dishes = dishes.SelectMany(dish => dish.Recipes,
             (dish, recipe) => new { Name = dish.Name, Recipe = recipe });
@@ -89,14 +95,13 @@ public class DishAnalystPresenter
 
         }
 
-        model.DishName = dishName;
-        view.OnDishPrepared(model.DishName);
+        model.SetDishName(dishName);
         pointCounterPresenter.SetAnalysisResult(model.Ingredients, matchedIngredientCount);
         pointCounterPresenter.CountPoints();
     }
 
-    public void ShowInfo()
+    private void OnLastDishChanged(string name)
     {
-        view.Show(model.DishName);
+        view.OnLastDishChanged(name);
     }
 }

@@ -26,12 +26,12 @@ class Program
 
 		FactoryModel factoryModel = new(config);
 		PotModel potModel = new();
-		DishAnalystModel dishAnalystModel = new(dishesData);
-		PointCounterModel pointCounterModel = new(pointCounterView);
+		DishAnalystModel dishAnalystModel = new();
+		PointCounterModel pointCounterModel = new();
 		
 		factoryPresenter.Init(factoryModel, factoryView);
 		potPresenter.Init(potView, potModel, config, factoryPresenter, dishAnalystPresenter);
-		dishAnalystPresenter.Init(dishAnalystModel, dishAnalystView, pointCounterPresenter);
+		dishAnalystPresenter.Init(dishAnalystModel, dishAnalystView, pointCounterPresenter, dishesData);
 		pointCounterPresenter.Init(pointCounterModel, pointCounterView, potPresenter);
 		
 
@@ -44,7 +44,6 @@ class Program
 	
 	private static void Start()
 	{		
-		dishAnalystPresenter.ShowInfo();
 		potPresenter.Start();
 	}
 }
