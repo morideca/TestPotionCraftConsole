@@ -5,45 +5,31 @@ namespace ConsoleApp1;
 
 class Program
 {
-	private static FactoryPresenter factoryPresenter;
-	private static PotPresenter potPresenter;
-	private static DishAnalystPresenter dishAnalystPresenter;
-	private static PointCounterPresenter pointCounterPresenter;
+	private static PotModel potModel;
 	static void Main()
 	{
 		IngredientConfig config = new IngredientConfig();
-		DishesData dishesData = new DishesData();
-		
-		factoryPresenter = new();
-		potPresenter = new();
-		dishAnalystPresenter = new();
-		pointCounterPresenter = new();
-		
-		FactoryView factoryView = new();
-		PotView potView = new(potPresenter);
-		DishAnalystView dishAnalystView = new();
+		RecipeData recipeData = new RecipeData();
+		Factory factory = new(config);
+
+		DishAnalyst dishAnalyst = new(recipeData);
+		potModel = new(factory, config, dishAnalyst);
+		PointCounterModel pointCounterModel = new(dishAnalyst);
+
+		PotView potView = new();
 		PointCounterView pointCounterView = new();
 
-		FactoryModel factoryModel = new(config);
-		PotModel potModel = new();
-		DishAnalystModel dishAnalystModel = new();
-		PointCounterModel pointCounterModel = new();
-		
-		factoryPresenter.Init(factoryModel, factoryView);
-		potPresenter.Init(potView, potModel, config, factoryPresenter, dishAnalystPresenter);
-		dishAnalystPresenter.Init(dishAnalystModel, dishAnalystView, pointCounterPresenter, dishesData);
-		pointCounterPresenter.Init(pointCounterModel, pointCounterView, potPresenter);
-		
+		PotPresenter potPresenter = new(potView, potModel);
+		PointCounterPresenter pointCounterPresenter = new(pointCounterModel, pointCounterView);
 
-		potPresenter.onWrongIngredientAdded += Start;
-		potPresenter.OnLeftFreeSpace += Start;
-		pointCounterPresenter.OnPointsCounted += Start;
+		potModel.onWrongIngredientAdded += Start;
+		pointCounterModel.OnFinished += Start;
 
 		Start();
 	}
-	
+
 	private static void Start()
-	{		
-		potPresenter.Start();
+	{
+		potModel.AskForIngredient();
 	}
 }

@@ -1,21 +1,22 @@
 namespace ConsoleApp1.Dishes;
 
-public class Stew : Dish
+public class OnionSoup : Recipe
 {
 	public override string Name { get; protected set; }
 	public override List<Dictionary<string, int[]>> Recipes { get; protected set; } = new();
 
-	public Stew()
+	public OnionSoup()
 	{
-		Name = "Рагу";
+		Name = "Луковый суп";
 		var recipe = new Dictionary<string, int[]>
 		{
-			{ "мясо", [2] }
+			{ "лук", [4] }
 		};
 		Recipes.Add(recipe);
+		
 		recipe = new Dictionary<string, int[]>
 		{
-			{ "мясо", [3] }
+			{ "лук", [5] }
 		};
 		Recipes.Add(recipe);
 	}

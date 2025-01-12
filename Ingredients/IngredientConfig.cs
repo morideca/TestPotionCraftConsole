@@ -9,7 +9,7 @@ public class IngredientConfig
 	public IngredientConfig()
 	{
 		string configJsonPath = 
-			"C:\\Users\\User\\RiderProjects\\TestPotions\\ConsoleApp1\\ConsoleApp1\\Ingredients\\ingredientsConfig.json";
+			"C:\\Users\\User\\RiderProjects\\TestPotions\\ConsoleApp1\\ConsoleApp1\\ingredients\\ingredientsConfig.json";
 		ingredientsConfig = JsonConvert.DeserializeObject<List<Ingredient>>(File.ReadAllText(configJsonPath));
 	}
 }

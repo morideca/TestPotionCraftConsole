@@ -2,56 +2,24 @@ namespace ConsoleApp1;
 
 public class PointCounterPresenter
 {
-    public event Action OnPointsCounted;
-    
     private PointCounterView view;
     private PointCounterModel model;
-    private PotPresenter potPresenter;
 
-
-    public void Init(PointCounterModel model, PointCounterView view, PotPresenter PotPresenter)
+    public PointCounterPresenter(PointCounterModel model, PointCounterView view)
     {
         this.model = model;
         this.view = view;
-        this.potPresenter = PotPresenter;
-        model.OnPointChanged += OnPointChanged;
+        model.OnPointsCounted += OnPointsCounted;
+        model.OnBestDishSelected += OnBestDishSelected;
     }
 
-    public void SetAnalysisResult(List<Ingredient> ingredients, int MatchedIngredientsCount)
+    public void OnPointsCounted(int points, int allPoints, string name)
     {
-        model.SetAnalysisResult(ingredients, MatchedIngredientsCount);
+        view.OnAddedPoints(points, allPoints, name);
     }
 
-    public void CountPoints()
+    private void OnBestDishSelected(string name, List<Ingredient> dish, int score)
     {
-        var ingredients = model.Ingredients;
-        var matchedIngredientsCount = model.MachedIngredientsCount;
-        
-        int newPoints = 0;
-        float multiplier = 0;
-        
-        foreach (var ingredient in ingredients)
-        {
-            newPoints += ingredient.PointCost;
-        }
-
-        multiplier = matchedIngredientsCount switch
-        {
-            1 => 2,
-            2 => 2,
-            3 => 1.5f,
-            4 => 1.25f,
-            5 => 1,
-            _ => multiplier
-        };
-        
-        newPoints = (int)Math.Round(newPoints * multiplier);
-        model.AddPoints(newPoints);
-        OnPointsCounted?.Invoke();
-    }
-
-    public void OnPointChanged(int points, int allPoints)
-    {
-        view.OnAddedPoints(points, allPoints);
+        view.OnBestDishSelected(name, dish, score);
     }
 }
