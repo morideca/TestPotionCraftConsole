@@ -3,29 +3,24 @@ namespace ConsoleApp1;
 public class PotModel
 {
 	public event Action<List<string>> OnIngredientAdded;
-	public event Action onWrongIngredientAdded;
+
+	private PointCounterModel pointCounterModel;
 	
 	private List<Ingredient> ingredients = new();
 	private DishAnalyst dishAnalyst;
 	private Factory factory;
 	private IngredientConfig config;
 	
-	public PotModel(Factory factory, IngredientConfig config, DishAnalyst dishAnalyst)
+	public PotModel(Factory factory, IngredientConfig config, DishAnalyst dishAnalyst, PointCounterModel pointCounterModel)
 	{
 		this.factory = factory;
 		this.config = config;
 		this.dishAnalyst = dishAnalyst;
+		this.pointCounterModel = pointCounterModel;
 	}
 	
 	public void AskForIngredient()
 	{
-		Console.WriteLine("Добавьте ингредиент:");
-		int i = 0;
-		foreach (var ingredient in config.ingredientsConfig)
-		{
-			Console.WriteLine($"{config.ingredientsConfig[i].Id} - {config.ingredientsConfig[i].Name}");
-			i++;
-		}
 		string answer = Console.ReadLine();
 		OnChoiceIngredient(answer);
 	}
@@ -37,10 +32,7 @@ public class PotModel
 			var ingredient = factory.GetIngredient(index);
 			AddIngredient(ingredient);
 		}
-		else
-		{
-			onWrongIngredientAdded?.Invoke();
-		}
+		else AskForIngredient();
 	}
 	
 	private void AddIngredient(Ingredient ingredient)
@@ -57,6 +49,7 @@ public class PotModel
         
 		if (ingredients.Count < 5)
 		{
+			pointCounterModel.ShowInfo();
 			AskForIngredient();
 		}
 		else

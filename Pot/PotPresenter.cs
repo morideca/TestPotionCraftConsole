@@ -10,12 +10,6 @@ public class PotPresenter
         this.view = view;
         this.model = model;
         model.OnIngredientAdded += OnIngredientAdded;
-        model.onWrongIngredientAdded += OnWrongIngredient;
-    }
-
-    private void OnWrongIngredient()
-    {
-        view.OnWrongIngredient();
     }
     
     private void OnIngredientAdded(List<string> ingredients)

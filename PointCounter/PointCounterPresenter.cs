@@ -9,13 +9,13 @@ public class PointCounterPresenter
     {
         this.model = model;
         this.view = view;
-        model.OnPointsCounted += OnPointsCounted;
+        model.OnPointsCounted += OnScoreChanged;
         model.OnBestDishSelected += OnBestDishSelected;
     }
 
-    public void OnPointsCounted(int points, int allPoints, string name)
+    public void OnScoreChanged(int points, int allPoints, string name)
     {
-        view.OnAddedPoints(points, allPoints, name);
+        view.OnScoreChanged(points, allPoints, name);
     }
 
     private void OnBestDishSelected(string name, List<Ingredient> dish, int score)

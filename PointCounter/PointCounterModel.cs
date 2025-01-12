@@ -8,11 +8,12 @@ public class PointCounterModel
 	public event Action OnFinished;
 	
 	private int Score;
-	
-	private List<Ingredient> newDish;
-	private string newDishName;
 
-	private string bestDishName;
+	private List<Ingredient> lastDish;
+	private string lastDishName = "нет";
+	private int lastDishScore = 0;
+
+	private string bestDishName = "нет";
 	private List<Ingredient> bestDish;
 	private int bestDishScore = 0;
 	
@@ -25,20 +26,20 @@ public class PointCounterModel
 
 	public void SetAnalysisResult(List<Ingredient> ingredients, int MatchedIngredientsCount, string name)
 	{
-		this.newDish = ingredients;
+		this.lastDish = ingredients;
 		this.matchedIngredientsCount = MatchedIngredientsCount;
-		newDishName = name;
+		lastDishName = name;
 		CountPoints();
 	}
 
 	private void CountPoints()
 	{
-		int newPoints = 0;
 		float multiplier = 0;
+		lastDishScore = 0;
         
-		foreach (var ingredient in newDish)
+		foreach (var ingredient in lastDish)
 		{
-			newPoints += ingredient.PointCost;
+			lastDishScore += ingredient.PointCost;
 		}
 
 		multiplier = matchedIngredientsCount switch
@@ -51,25 +52,30 @@ public class PointCounterModel
 			_ => multiplier
 		};
         
-		newPoints = (int)Math.Round(newPoints * multiplier);
+		lastDishScore = (int)Math.Round(lastDishScore * multiplier);
 
-		if (newPoints > bestDishScore)
+		if (lastDishScore > bestDishScore)
 		{
 			bestDish = new();
-			foreach (var dish in newDish)
+			foreach (var dish in lastDish)
 			{
 				bestDish.Add(dish);
 			}
-			bestDishScore = newPoints;
-			bestDishName = newDishName;
+			bestDishScore = lastDishScore;
+			bestDishName = lastDishName;
 		}
-		AddPoints(newPoints);
+		AddPoints(lastDishScore);
 	}
 	
 	private void AddPoints(int points)
 	{
 		this.Score += points;
-		OnPointsCounted?.Invoke(points, this.Score, newDishName);
+		ShowInfo();
+	}
+
+	public void ShowInfo()
+	{
+		OnPointsCounted?.Invoke(lastDishScore, this.Score, lastDishName);
 		OnBestDishSelected?.Invoke(bestDishName, bestDish, bestDishScore);
 		OnFinished?.Invoke();
 	}

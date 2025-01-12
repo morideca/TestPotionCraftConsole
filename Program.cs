@@ -13,16 +13,15 @@ class Program
 		Factory factory = new(config);
 
 		DishAnalyst dishAnalyst = new(recipeData);
-		potModel = new(factory, config, dishAnalyst);
 		PointCounterModel pointCounterModel = new(dishAnalyst);
+		potModel = new(factory, config, dishAnalyst, pointCounterModel);
 
 		PotView potView = new();
 		PointCounterView pointCounterView = new();
 
 		PotPresenter potPresenter = new(potView, potModel);
 		PointCounterPresenter pointCounterPresenter = new(pointCounterModel, pointCounterView);
-
-		potModel.onWrongIngredientAdded += Start;
+		
 		pointCounterModel.OnFinished += Start;
 
 		Start();
