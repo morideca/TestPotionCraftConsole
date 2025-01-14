@@ -10,9 +10,4 @@ public class PotView
 			Console.WriteLine($" {_ingredient},");
 		}
 	}
-	
-	public void OnWrongIngredient()
-	{
-		Console.WriteLine("Такого ингредиента нет.");
-	}
 }

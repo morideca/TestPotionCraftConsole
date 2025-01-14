@@ -4,12 +4,24 @@ namespace ConsoleApp1;
 
 public class IngredientConfig
 {
-	public List<Ingredient> ingredientsConfig { get; private set; }
+	private List<Ingredient> ingredientsConfig;
 
 	public IngredientConfig()
 	{
+		Init();
+	}
+
+	public Ingredient GetIngredient(int id)
+	{
+		var ingredient = ingredientsConfig.FirstOrDefault(item => item.Id == id);
+		return ingredient;
+	}
+	
+	private void Init()
+	{
 		string configJsonPath = 
-			"C:\\Users\\User\\RiderProjects\\TestPotions\\ConsoleApp1\\ConsoleApp1\\ingredients\\ingredientsConfig.json";
+			"Ingredients/ingredientsConfig.json";
 		ingredientsConfig = JsonConvert.DeserializeObject<List<Ingredient>>(File.ReadAllText(configJsonPath));
 	}
+	
 }

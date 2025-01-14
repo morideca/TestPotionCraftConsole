@@ -16,3 +16,4 @@ C:\Users\User\RiderProjects\TestPotions\ConsoleApp1\ConsoleApp1\obj\Debug\net9.0
 C:\Users\User\RiderProjects\TestPotions\ConsoleApp1\ConsoleApp1\bin\Debug\net9.0\Newtonsoft.Json.dll
 C:\Users\User\RiderProjects\TestPotions\ConsoleApp1\ConsoleApp1\obj\Debug\net9.0\ConsoleApp1.csproj.AssemblyReference.cache
 C:\Users\User\RiderProjects\TestPotions\ConsoleApp1\ConsoleApp1\obj\Debug\net9.0\ConsoleA.CB28C8CC.Up2Date
+C:\Users\User\RiderProjects\TestPotions\ConsoleApp1\ConsoleApp1\bin\Debug\net9.0\Ingredients\ingredientsConfig.json
