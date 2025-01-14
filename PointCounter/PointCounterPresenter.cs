@@ -13,7 +13,7 @@ public class PointCounterPresenter
         model.OnBestDishSelected += OnBestDishSelected;
     }
 
-    public void OnScoreChanged(int points, int allPoints, string name)
+    private void OnScoreChanged(int points, int allPoints, string name)
     {
         view.OnScoreChanged(points, allPoints, name);
     }

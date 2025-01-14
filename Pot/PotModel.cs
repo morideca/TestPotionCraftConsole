@@ -3,39 +3,14 @@ namespace ConsoleApp1;
 public class PotModel
 {
 	public event Action<List<string>> OnIngredientAdded;
+	public event Action<List<Ingredient>> OnDishPrepared;
+	public event Action OnAskedForIngredientAgain;
 
 	private PointCounterModel pointCounterModel;
 	
 	private List<Ingredient> ingredients = new();
-	private DishAnalyst dishAnalyst;
-	private Factory factory;
-	private IngredientConfig config;
 	
-	public PotModel(Factory factory, IngredientConfig config, DishAnalyst dishAnalyst, PointCounterModel pointCounterModel)
-	{
-		this.factory = factory;
-		this.config = config;
-		this.dishAnalyst = dishAnalyst;
-		this.pointCounterModel = pointCounterModel;
-	}
-	
-	public void AskForIngredient()
-	{
-		string answer = Console.ReadLine();
-		OnChoiceIngredient(answer);
-	}
-	
-	private void OnChoiceIngredient(string answer)
-	{
-		if (int.TryParse(answer, out int index) && index is >= 1 and <= 5)
-		{
-			var ingredient = factory.GetIngredient(index);
-			AddIngredient(ingredient);
-		}
-		else AskForIngredient();
-	}
-	
-	private void AddIngredient(Ingredient ingredient)
+	public void AddIngredient(Ingredient ingredient)
 	{
 		if (ingredients.Count == 5)
 		{
@@ -49,12 +24,11 @@ public class PotModel
         
 		if (ingredients.Count < 5)
 		{
-			pointCounterModel.ShowInfo();
-			AskForIngredient();
+			OnAskedForIngredientAgain?.Invoke();
 		}
 		else
 		{
-			dishAnalyst.AnalyzeDish(ingredients);
+			OnDishPrepared?.Invoke(ingredients);
 		}
 	}
 }

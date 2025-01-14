@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using ConsoleApp1.Dishes;
 
 namespace ConsoleApp1;
@@ -8,12 +9,14 @@ public class DishAnalyst
 	
 	private RecipeData recipeData;
 	
-	public DishAnalyst(RecipeData recipeData)
+	public DishAnalyst(RecipeData recipeData, PotModel potModel)
 	{
 		this.recipeData = recipeData;
+		
+		potModel.OnDishPrepared += AnalyzeDish;
 	}
 
-    public void AnalyzeDish(List<Ingredient> ingredients)
+    private void AnalyzeDish(List<Ingredient> ingredients)
     {
 	    string dishName = "";
         List<string> ingredientNames = ingredients.Select(ingredient => ingredient.Name).ToList();
@@ -57,7 +60,6 @@ public class DishAnalyst
             };
             dishName = GetDishName(recipe);
         }
-
         OnAnalysisDone?.Invoke(ingredients, matchedIngredientCount, dishName);
     }
     

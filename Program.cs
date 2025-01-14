@@ -8,27 +8,23 @@ class Program
 	private static PotModel potModel;
 	static void Main()
 	{
-		IngredientConfig config = new IngredientConfig();
+		IngredientConfig ingredientConfig = new IngredientConfig();
 		RecipeData recipeData = new RecipeData();
-		Factory factory = new(config);
+		
+		DishPointCounter dishPointCounter = new DishPointCounter();
 
-		DishAnalyst dishAnalyst = new(recipeData);
-		PointCounterModel pointCounterModel = new(dishAnalyst);
-		potModel = new(factory, config, dishAnalyst, pointCounterModel);
-
+		potModel = new();
+		DishAnalyst dishAnalyst = new(recipeData, potModel);
+		PointCounterModel pointCounterModel = new(potModel, dishAnalyst, dishPointCounter);
+		
 		PotView potView = new();
 		PointCounterView pointCounterView = new();
 
 		PotPresenter potPresenter = new(potView, potModel);
 		PointCounterPresenter pointCounterPresenter = new(pointCounterModel, pointCounterView);
+
+		UserInput userInput = new UserInput(potModel, ingredientConfig, pointCounterModel);
 		
-		pointCounterModel.OnFinished += Start;
-
-		Start();
-	}
-
-	private static void Start()
-	{
-		potModel.AskForIngredient();
+		userInput.AskForIngredient();
 	}
 }
